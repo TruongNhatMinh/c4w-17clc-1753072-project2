@@ -221,5 +221,30 @@ namespace Student_Management.DAL
             cnn.Close();
             return saveSchedule;
         }
+
+
+        public bool modifyPassword(string account, string oldPassword, string newPassword)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            cmd.CommandText = $"UPDATE Account SET Password=? WHERE Username=?";
+            cmd.Parameters.AddWithValue("@Password", newPassword);
+            cmd.Parameters.AddWithValue("@Username", account);
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+        }
     }
 }

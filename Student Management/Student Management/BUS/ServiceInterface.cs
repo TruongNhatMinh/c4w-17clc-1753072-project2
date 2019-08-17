@@ -78,5 +78,10 @@ namespace Student_Management.BUS
             }
             return _getSchedule;
         }
+
+        internal bool modifyPassword(string account, string oldPassword, string newPassword)
+        {
+            return handle.modifyPassword(account, oldPassword, newPassword);
+        }
     }
 }
