@@ -35,6 +35,21 @@ namespace Student_Management.BUS
             return returnClass(handle.addClass(filePath));
         }
 
+        internal List<string> nameClass()
+        {
+            return handle.nameClass();
+        }
+
+        internal ObservableCollection<Student> viewClass(string nClass)
+        {
+            return returnClass(handle.viewClass(nClass));
+        }
+
+        internal List<string> nameCourses(string nClass)
+        {
+            return handle.nameCourses(nClass);
+        }
+
         private ObservableCollection<Student> returnClass(List<string[]> getClass)
         {
             ObservableCollection<Student> _getClass = new ObservableCollection<Student>();
@@ -59,6 +74,11 @@ namespace Student_Management.BUS
         internal ObservableCollection<Schedule> addSchedule(string filePath)
         {
             return returnSchedule(handle.addSchedule(filePath));
+        }
+
+        internal ObservableCollection<Schedule> viewSchedule(string nClass)
+        {
+            return returnSchedule(handle.viewSchedule(nClass));
         }
 
         private ObservableCollection<Schedule> returnSchedule(List<string[]> getSchedule)

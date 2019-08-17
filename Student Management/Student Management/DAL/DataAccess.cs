@@ -288,6 +288,105 @@ namespace Student_Management.DAL
             return saveScoreboard;
         }
 
+        public List<string> nameClass()
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            List<string> saveNameClass = new List<string>();
+
+            try
+            {
+                cmd.CommandText = $"Select MALOP From Class";
+                var rd = cmd.ExecuteReader();
+
+                while (rd.Read())
+                {
+                    saveNameClass.Add(rd.GetString(0));
+                }
+                
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+                cnn.Close();
+            }
+            return saveNameClass;
+        }
+
+        public List<string[]> viewClass(string nClass)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            List<string[]> saveClass = new List<string[]>();
+
+            cmd.CommandText = $"SELECT STT, MSSV, HOTEN, GIOITINH, CMND, NGAYSINH, DIACHI, MALOP FROM Student WHERE MALOP = ?";
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            var rd = cmd.ExecuteReader();        
+
+            while (rd.Read())
+            {
+                string[] parameters = new string[] {rd.GetInt32(0).ToString(), rd.GetString(1), rd.GetString(2), rd.GetString(3), rd.GetString(4),
+                rd.GetDateTime(5).ToShortDateString().ToString(), rd.GetString(6), rd.GetString(7)};
+                saveClass.Add(parameters);
+            }
+ 
+            cnn.Close();
+            return saveClass;
+        }
+
+        public List<string> nameCourses(string nClass)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            List<string> saveNameCourses = new List<string>();
+
+            try
+            {
+                cmd.CommandText = $"SELECT MAMON FROM Schedule WHERE MALOP =?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                var rd = cmd.ExecuteReader();
+
+                while (rd.Read())
+                {
+                    saveNameCourses.Add(rd.GetString(0));
+                }
+
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+                cnn.Close();
+            }
+            return saveNameCourses;
+        }
+
+        public List<string[]> viewSchedule(string nClass)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            List<string[]> saveSchedule = new List<string[]>();
+
+            cmd.CommandText = $"SELECT STT, MAMON, TENMON, PHONGHOC, MALOP FROM Schedule WHERE MALOP = ?";
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            var rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                string[] parameters = new string[] {rd.GetInt32(0).ToString(), rd.GetString(1), rd.GetString(2), rd.GetString(3), rd.GetString(4)};
+                saveSchedule.Add(parameters);
+            }
+
+            cnn.Close();
+            return saveSchedule;
+        }
 
         public bool modifyPassword(string account, string oldPassword, string newPassword)
         {

@@ -86,19 +86,44 @@ namespace Student_Management
 
         private void viewClass_Click(object sender, RoutedEventArgs e)
         {
+            List<string> nClass = handle.nameClass();
+            managerFrame1.Visibility = Visibility.Hidden;
+            managerFrame2.Content = null;
+            viewFrame.Visibility = Visibility.Visible;
 
+            foreach (string _class in nClass)
+            {
+                viewClassCB.Items.Add(_class);
+            }
         }
 
         private void ViewClassCB_DropDownClosed(object sender, EventArgs e)
         {
+            List<string> nCourses = handle.nameCourses(viewClassCB.SelectedItem.ToString());
+            viewScheduleCB.Items.Clear();
+
+            foreach (string _courses in nCourses)
+            {
+                viewScheduleCB.Items.Add(_courses);
+            }
+
+            viewClassBtn.IsEnabled = true;
+            viewScheduleBtn.IsEnabled = true;
+            viewScheduleCB.IsEnabled = true;
         }
 
         private void viewClassBtn_Click(object sender, RoutedEventArgs e)
         {
+            Components _components = DataContext as Components;
+            _components.NewClass = handle.viewClass(viewClassCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewClass(DataContext as Components));
         }
 
         private void viewScheduleBtn_Click(object sender, RoutedEventArgs e)
         {
+            Components _components = DataContext as Components;
+            _components.NewSchedule = handle.viewSchedule(viewClassCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewSchedule(DataContext as Components));
         }
 
         private void ViewScheduleCB_DropDownClosed(object sender, EventArgs e)
@@ -107,6 +132,16 @@ namespace Student_Management
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            managerFrame1.Visibility = Visibility.Visible;
+            viewFrame.Visibility = Visibility.Hidden;
+            managerFrame2.Content = null;
+            viewClassCB.Items.Clear();
+            viewScheduleCB.Items.Clear();
+            viewClassBtn.IsEnabled = false;
+            viewScheduleBtn.IsEnabled = false;
+            viewScheduleCB.IsEnabled = false;
+            viewMarkBtn.IsEnabled = false;
+            editMarkBtn.IsEnabled = false;
         }
 
         private void viewMarkBtn_Click(object sender, RoutedEventArgs e)
