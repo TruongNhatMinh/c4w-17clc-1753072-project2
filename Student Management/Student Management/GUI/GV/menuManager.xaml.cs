@@ -75,17 +75,14 @@ namespace Student_Management
 
         private void addScoreboard_Click(object sender, RoutedEventArgs e)
         {
+            string filePath = getImportFilePath();
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            Components _components = DataContext as Components;
+            _components.NewScoreboard = handle.addScoreboard(filePath);
+            managerFrame2.Navigate(new viewScoreboard(DataContext as Components));
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.GoBack();
-        }
-
-        private void ModifyPassword_Click(object sender, RoutedEventArgs e)
-        {
-            managerFrame2.Navigate(new changePassword(DataContext as Components));
-        }
 
         private void viewClass_Click(object sender, RoutedEventArgs e)
         {
@@ -124,6 +121,16 @@ namespace Student_Management
         private void signObject_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ModifyPassword_Click(object sender, RoutedEventArgs e)
+        {
+            managerFrame2.Navigate(new changePassword(DataContext as Components));
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
     }
 }

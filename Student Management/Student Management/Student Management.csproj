@@ -71,6 +71,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\GV\viewScoreboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +103,9 @@
     </Compile>
     <Compile Include="GUI\GV\viewSchedule.xaml.cs">
       <DependentUpon>viewSchedule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GV\viewScoreboard.xaml.cs">
+      <DependentUpon>viewScoreboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>

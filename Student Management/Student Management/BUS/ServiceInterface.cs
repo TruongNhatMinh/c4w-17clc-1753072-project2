@@ -79,6 +79,33 @@ namespace Student_Management.BUS
             return _getSchedule;
         }
 
+        internal ObservableCollection<Scoreboard> addScoreboard(string filePath)
+        {
+            return returnScoreboard(handle.addScoreboard(filePath));
+        }
+
+        private ObservableCollection<Scoreboard> returnScoreboard(List<string[]> getScoreboard)
+        {
+            ObservableCollection<Scoreboard> _getScoreboard = new ObservableCollection<Scoreboard>();
+
+            foreach (string[] _schedule in getScoreboard)
+            {
+                _getScoreboard.Add(new Scoreboard()
+                {
+                    STT = Int32.Parse(_schedule[0]),
+                    MSSV = _schedule[1],
+                    HOTEN = _schedule[2],
+                    MAMON = _schedule[3],
+                    DIEMGK = float.Parse(_schedule[4]),
+                    DIEMCK = float.Parse(_schedule[5]),
+                    DIEMKHAC = float.Parse(_schedule[6]),
+                    DIEMTB = float.Parse(_schedule[7]),
+                    MALOP = _schedule[8]
+                });
+            }
+            return _getScoreboard;
+        }
+
         internal bool modifyPassword(string account, string oldPassword, string newPassword)
         {
             return handle.modifyPassword(account, oldPassword, newPassword);

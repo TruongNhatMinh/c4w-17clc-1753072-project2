@@ -222,6 +222,72 @@ namespace Student_Management.DAL
             return saveSchedule;
         }
 
+        public List<string[]> addScoreboard(string path)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            List<string[]> saveScoreboard = new List<string[]>();
+            string[] parameters;
+            char[] spliter = new char[] { ',' };
+            StreamReader sourceFile = new StreamReader(path);
+
+            parameters = sourceFile.ReadLine().Split(spliter, 2);
+            string nameClass = parameters[0];
+            string codeCourses = parameters[1];
+
+            try
+            {
+                OleDbCommand deleteCmd = new OleDbCommand();
+                deleteCmd.Connection = cnn;
+                deleteCmd.CommandText = "DELETE FROM Scoreboard WHERE MALOP = ? AND MAMON = ?";
+                deleteCmd.Parameters.AddWithValue("@MALOP", nameClass);
+                deleteCmd.Parameters.AddWithValue("@MAMON", codeCourses);
+                deleteCmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            parameters = sourceFile.ReadLine().Split(spliter, 7);
+
+            while (!sourceFile.EndOfStream)
+            {
+                cmd.CommandText = $"INSERT INTO Scoreboard(STT, MSSV, HOTEN, MAMON, DIEMGK, DIEMCK, DIEMKHAC, DIEMTB, MALOP) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                parameters = sourceFile.ReadLine().Split(spliter, 7);
+
+                parameters = new string[] { parameters[0].Replace(" ", ""), parameters[1].Replace(" ", ""),
+                                            parameters[2], codeCourses, parameters[3].Replace(" ", ""), parameters[4].Replace(" ", ""),
+                                            parameters[5].Replace(" ", ""), parameters[6].Replace(" ", ""), nameClass};
+
+                saveScoreboard.Add(parameters);
+
+
+                try
+                {
+                    cmd.Parameters.AddWithValue("@STT", Int32.Parse(parameters[0]));
+                    cmd.Parameters.AddWithValue("@MSSV", parameters[1]);
+                    cmd.Parameters.AddWithValue("@HOTEN", parameters[2]);
+                    cmd.Parameters.AddWithValue("@MAMON", codeCourses);
+                    cmd.Parameters.AddWithValue("@DIEMGK", parameters[3]);
+                    cmd.Parameters.AddWithValue("@DIEMCK", parameters[4]);
+                    cmd.Parameters.AddWithValue("@DIEMKHAC", parameters[5]);
+                    cmd.Parameters.AddWithValue("@DIEMTB", parameters[6]);
+                    cmd.Parameters.AddWithValue("@MALOP", nameClass);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
+            }
+            cnn.Close();
+            return saveScoreboard;
+        }
+
 
         public bool modifyPassword(string account, string oldPassword, string newPassword)
         {
