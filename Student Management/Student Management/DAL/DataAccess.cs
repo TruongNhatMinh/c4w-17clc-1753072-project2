@@ -174,5 +174,52 @@ namespace Student_Management.DAL
             cnn.Close();
             return saveClass;
         }
+
+        public List<string[]> addSchedule(string path)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            OleDbCommand cmd2 = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd2.Connection = cnn;
+
+            List<string[]> saveSchedule = new List<string[]>();
+            string[] parameters;
+            char[] spliter = new char[] { ',' };
+            StreamReader sourceFile = new StreamReader(path);
+
+            parameters = sourceFile.ReadLine().Split(spliter, 4);
+            string nameClass = parameters[0];
+            parameters = sourceFile.ReadLine().Split(spliter, 4);
+
+            while (!sourceFile.EndOfStream)
+            {
+                cmd.CommandText = $"INSERT INTO Schedule(STT, MAMON, TENMON, PHONGHOC, MALOP) VALUES(?, ?, ?, ?, ?)";
+                cmd2.CommandText = $"INSERT INTO Account VALUES(?, ?, ?)";
+                parameters = sourceFile.ReadLine().Split(spliter, 4);
+
+                parameters = new string[] { parameters[0].Replace(" ", ""), parameters[1].Replace(" ", ""),
+                                            parameters[2], parameters[3].Replace(" ", ""), nameClass};
+
+                saveSchedule.Add(parameters);
+
+                try
+                {
+                    cmd.Parameters.AddWithValue("@STT", Int32.Parse(parameters[0]));
+                    cmd.Parameters.AddWithValue("@MAMON", parameters[1]);
+                    cmd.Parameters.AddWithValue("@TENMON", parameters[2]);
+                    cmd.Parameters.AddWithValue("@PHONGHOC", parameters[3]);
+                    cmd.Parameters.AddWithValue("@MALOP", nameClass);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
+            }
+            cnn.Close();
+            return saveSchedule;
+        }
     }
 }

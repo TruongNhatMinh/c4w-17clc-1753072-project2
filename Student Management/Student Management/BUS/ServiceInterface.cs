@@ -55,5 +55,28 @@ namespace Student_Management.BUS
             }
             return _getClass;
         }
+
+        internal ObservableCollection<Schedule> addSchedule(string filePath)
+        {
+            return returnSchedule(handle.addSchedule(filePath));
+        }
+
+        private ObservableCollection<Schedule> returnSchedule(List<string[]> getSchedule)
+        {
+            ObservableCollection<Schedule> _getSchedule = new ObservableCollection<Schedule>();
+
+            foreach (string[] _schedule in getSchedule)
+            {
+                _getSchedule.Add(new Schedule()
+                {
+                    STT = Int32.Parse(_schedule[0]),
+                    MAMON = _schedule[1],
+                    TENMON = _schedule[2],
+                    PHONGHOC = _schedule[3],
+                    MALOP = _schedule[4]
+                });
+            }
+            return _getSchedule;
+        }
     }
 }

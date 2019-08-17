@@ -63,6 +63,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\GV\viewSchedule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -85,6 +89,9 @@
     <Compile Include="DAL\DataAccess.cs" />
     <Compile Include="GUI\GV\viewClass.xaml.cs">
       <DependentUpon>viewClass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GV\viewSchedule.xaml.cs">
+      <DependentUpon>viewSchedule.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>

@@ -23,7 +23,6 @@ namespace Student_Management
     /// </summary>
     public partial class menuManager : Page
     {
-        string nameClass, nameCourses;
         ServiceInterface handle = new ServiceInterface();
         public menuManager(Components _components)
         {
@@ -62,6 +61,12 @@ namespace Student_Management
 
         private void addSchedule_Click(object sender, RoutedEventArgs e)
         {
+            string filePath = getImportFilePath();
+            if (string.IsNullOrEmpty(filePath)) return;
+
+            Components _components = DataContext as Components;
+            _components.NewSchedule = handle.addSchedule(filePath);
+            managerFrame2.Navigate(new viewSchedule(DataContext as Components));
         }
 
         private void viewSchedule_Click(object sender, RoutedEventArgs e)
