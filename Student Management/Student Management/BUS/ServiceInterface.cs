@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Student_Management.DAL;
+using System.Collections.ObjectModel;
 
 namespace Student_Management.BUS
 {
@@ -22,6 +23,37 @@ namespace Student_Management.BUS
             else if (sta == 3)
                 return state.isManager;
             return state.incorrectPassword;
+        }
+
+        internal bool isClassExist(string path)
+        {
+            return handle.isClassExist(path);
+        }
+
+        internal ObservableCollection<Student> addClass(string filePath)
+        {
+            return returnClass(handle.addClass(filePath));
+        }
+
+        private ObservableCollection<Student> returnClass(List<string[]> getClass)
+        {
+            ObservableCollection<Student> _getClass = new ObservableCollection<Student>();
+
+            foreach(string[] _class in getClass)
+            {
+                _getClass.Add(new Student()
+                {
+                    STT = Int32.Parse(_class[0]),
+                    MSSV = _class[1],
+                    HOTEN = _class[2],
+                    GIOITINH = _class[3],
+                    CMND = _class[4],
+                    NGAYSINH = _class[5],
+                    DIACHI = _class[6],
+                    MALOP = _class[7]
+                });
+            }
+            return _getClass;
         }
     }
 }

@@ -55,6 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="GUI\GV\menuManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\GV\viewClass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,8 +83,14 @@
     <Compile Include="BUS\Entities.cs" />
     <Compile Include="BUS\ServiceInterface.cs" />
     <Compile Include="DAL\DataAccess.cs" />
+    <Compile Include="GUI\GV\viewClass.xaml.cs">
+      <DependentUpon>viewClass.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GV\menuManager.xaml.cs">
+      <DependentUpon>menuManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

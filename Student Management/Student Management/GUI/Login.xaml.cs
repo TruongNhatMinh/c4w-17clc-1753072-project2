@@ -45,9 +45,10 @@ namespace Student_Management.GUI
                 {
                     BindingExpression bindingExpression = usernameTextBox.GetBindingExpression(TextBox.TextProperty);
                     bindingExpression.UpdateSource();
-                    if (resultState == state.isStudent)
+                    if (resultState == state.isManager)
                     {
                         MessageBox.Show("Đăng nhập thành công", "Announce", MessageBoxButton.OK, MessageBoxImage.Information);
+                        this.NavigationService.Navigate(new menuManager(DataContext as Components));
                     }
                     else
                     {

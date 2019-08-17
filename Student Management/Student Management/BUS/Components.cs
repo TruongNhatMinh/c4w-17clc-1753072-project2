@@ -16,28 +16,28 @@ namespace Student_Management.BUS
             get { return currentAccount; }
             set { currentAccount = value; }
         }
-        private ObservableCollection<Student> newClass = new ObservableCollection<Student>();
-        private ObservableCollection<Schedule> newSchedule = new ObservableCollection<Schedule>();
-        private ObservableCollection<Scoreboard> newScoreboard = new ObservableCollection<Scoreboard>();
+        private ObservableCollection<Student> _class = new ObservableCollection<Student>();
+        private ObservableCollection<Schedule> _schedule = new ObservableCollection<Schedule>();
+        private ObservableCollection<Scoreboard> _scoreboard = new ObservableCollection<Scoreboard>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Student> NewClass
         {
-            get { return newClass; }
-            set { newClass = value; OnPropertyChanged("NewClass"); }
+            get { return _class; }
+            set { _class = value; OnPropertyChanged("NewClass"); }
         }
 
         public ObservableCollection<Schedule> NewSchedule
         {
-            get { return newSchedule; }
-            set { newSchedule = value; OnPropertyChanged("NewSchedule"); }
+            get { return _schedule; }
+            set { _schedule = value; OnPropertyChanged("NewSchedule"); }
         }
 
         public ObservableCollection<Scoreboard> NewScoreboard
         {
-            get { return newScoreboard; }
-            set { newScoreboard = value; OnPropertyChanged("NewScoreboard"); }
+            get { return _scoreboard; }
+            set { _scoreboard = value; OnPropertyChanged("NewScoreboard"); }
         }
 
         private void OnPropertyChanged(string propertyName)

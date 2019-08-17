@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.OleDb;
-
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Student_Management.DAL
 {
@@ -52,6 +54,125 @@ namespace Student_Management.DAL
             }
             cnn.Close();
             return state;
+        }
+
+        public bool isClassExist(string path)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"Select Count(*) FROM Class C WHERE C.MALOP = ?";
+            cmd.Parameters.AddWithValue("@Username", $"{Path.GetFileNameWithoutExtension(path)}");
+            var rd = cmd.ExecuteScalar();
+            bool res = Convert.ToBoolean(rd);
+            cnn.Close();
+            return res;
+        }
+
+        public List<string[]> addClass(string filePath)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            OleDbCommand cmd2 = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd2.Connection = cnn;
+            cmd.CommandText = $"INSERT INTO Class(MALOP) VALUES(?)";
+            cmd.Parameters.AddWithValue("@MALOP", $"{Path.GetFileNameWithoutExtension(filePath)}");
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch { }
+            finally
+            {
+                try
+                {
+                    OleDbCommand deleteCmd = new OleDbCommand();
+                    deleteCmd.Connection = cnn;
+                    deleteCmd.CommandText = "DELETE FROM Student WHERE MALOP = ?";
+                    deleteCmd.Parameters.AddWithValue("@MALOP", Path.GetFileNameWithoutExtension(filePath));
+                    deleteCmd.ExecuteNonQuery();
+
+                    deleteCmd.CommandText = "DELETE FROM Account WHERE Username IN (SELECT SV.MSSV FROM Student SV WHERE SV.MALOP = ?)";
+
+                    deleteCmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            }
+
+            List<string[]> saveClass = new List<string[]>();
+            string[] parameters;
+            char[] spliter = new char[] { ',' };
+            StreamReader sourceFile = new StreamReader(filePath);
+
+            parameters = sourceFile.ReadLine().Split(spliter, 7);
+            string nameClass = parameters[0];
+            parameters = sourceFile.ReadLine().Split(spliter, 7);
+            int siso = 0;
+
+            while (!sourceFile.EndOfStream)
+            {
+                siso++;
+                cmd.CommandText = $"INSERT INTO Student(STT, MSSV, HOTEN, GIOITINH, CMND, NGAYSINH, DIACHI, MALOP) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                cmd2.CommandText = $"INSERT INTO Account VALUES(?, ?, ?)";
+                parameters = sourceFile.ReadLine().Split(spliter, 7);
+
+                parameters = new string[] { parameters[0].Replace(" ", ""), parameters[1].Replace(" ", ""),
+                                            parameters[2], parameters[3].Replace(" ", ""), parameters[4].Replace(" ", ""),
+                                            parameters[5].Replace(" ", ""),parameters[6], nameClass};
+
+                saveClass.Add(parameters);
+
+                try
+                {
+                    cmd2.Parameters.AddWithValue("@Username", parameters[1].Replace(" ", ""));
+                    cmd2.Parameters.AddWithValue("@Password", parameters[5].Replace("/", ""));
+                    cmd2.Parameters.AddWithValue("@Type", "sv");
+                    cmd2.ExecuteNonQuery();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    cmd2.Parameters.Clear();
+                }
+                try
+                {
+                    cmd.Parameters.AddWithValue("@STT", Int32.Parse(parameters[0]));
+                    cmd.Parameters.AddWithValue("@MSSV", parameters[1]);
+                    cmd.Parameters.AddWithValue("@HOTEN", parameters[2]);
+                    cmd.Parameters.AddWithValue("@GIOITINH", parameters[3]);
+                    cmd.Parameters.AddWithValue("@CMND", parameters[4]);
+                    cmd.Parameters.AddWithValue("@NGAYSINH", parameters[5]);
+                    cmd.Parameters.AddWithValue("@DIACHI", parameters[6]);
+                    cmd.Parameters.AddWithValue("@MALOP", nameClass);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
+            }
+
+            cmd.CommandText = $"UPDATE Class set SISO = ? Where MALOP = ?";
+            try
+            {
+                cmd.Parameters.AddWithValue("@SISO", siso);
+                cmd.Parameters.AddWithValue("@MALOP", nameClass);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+
+            cnn.Close();
+            return saveClass;
         }
     }
 }
