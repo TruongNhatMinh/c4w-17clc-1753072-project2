@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Student_Management.BUS;
 
 namespace Student_Management.GUI
 {
@@ -19,13 +20,50 @@ namespace Student_Management.GUI
     /// </summary>
     public partial class Login : Page
     {
-        public Login()
+        ServiceInterface handle = new ServiceInterface();
+        public Login(Components cP)
         {
+            DataContext = cP;
             InitializeComponent();
         }
 
         private void accountAccess()
         {
+            bool isUsernameEmpty = string.IsNullOrEmpty(usernameTextBox.Text);
+            bool isPasswordEmpty = string.IsNullOrEmpty(passwordBox.Password);
+
+            if (!isUsernameEmpty && !isPasswordEmpty)
+            {
+                state resultState = handle.checkStateAccess(usernameTextBox.Text, passwordBox.Password);
+                if (resultState == state.accountIsNotExist)
+                    MessageBox.Show("Tài khoản không tồn tại!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                else if (resultState == state.incorrectPassword)
+                    MessageBox.Show("Mật khẩu không đúng!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                else
+                {
+                    BindingExpression bindingExpression = usernameTextBox.GetBindingExpression(TextBox.TextProperty);
+                    bindingExpression.UpdateSource();
+                    if (resultState == state.isStudent)
+                    {
+                        MessageBox.Show("Đăng nhập thành công", "Announce", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Đăng nhập thành công", "Announce", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            else
+            {
+                if (isPasswordEmpty && isUsernameEmpty)
+                    MessageBox.Show("Bạn chưa nhập Tài Khoản và Mật khẩu", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (isUsernameEmpty)
+                    MessageBox.Show("Bạn chưa nhập Tài khoản!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                else if (isPasswordEmpty)
+                    MessageBox.Show("Bạn chưa nhập Mật khẩu!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Enter_KeyDown(object sender, KeyEventArgs e)

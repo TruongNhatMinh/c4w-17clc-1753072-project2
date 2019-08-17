@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Student_Management.GUI;
+using Student_Management.BUS;
 
 namespace Student_Management
 {
@@ -21,10 +22,12 @@ namespace Student_Management
     /// </summary>
     public partial class MainWindow : Window
     {
+        Components _components = new Components();
         public MainWindow()
         {
             InitializeComponent();
-            main.NavigationService.Navigate(new Login());
+            DataContext = _components;
+            main.NavigationService.Navigate(new Login(_components));
         }
     }
 }
