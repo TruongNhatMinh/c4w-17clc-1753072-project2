@@ -63,6 +63,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\GV\deleteStudent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\GV\editMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +116,9 @@
     </Compile>
     <Compile Include="GUI\GV\addStudent.xaml.cs">
       <DependentUpon>addStudent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GV\deleteStudent.xaml.cs">
+      <DependentUpon>deleteStudent.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\GV\editMark.xaml.cs">
       <DependentUpon>editMark.xaml</DependentUpon>

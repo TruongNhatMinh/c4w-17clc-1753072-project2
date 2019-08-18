@@ -46,8 +46,8 @@
         </StackPanel>
         <StackPanel Grid.Row="5" Style="{StaticResource StackPanelHorizontal}">
             <Label Content="Giới Tính" HorizontalAlignment="Center" Width="65"/>
-            <TextBox Name="gioitinhtxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
-                     />
+            <ComboBox x:Name="gioitinhCB" ItemsSource="{Binding SourceList}" VerticalContentAlignment="Center"
+                Width="235" Height="23" Background="#FFF4F4F4" Foreground="Black"/>
         </StackPanel>
         <StackPanel Grid.Row="7" Style="{StaticResource StackPanelHorizontal}">
             <Label Content="CMND" HorizontalAlignment="Center" Width="65"/>
@@ -56,8 +56,9 @@
         </StackPanel>
         <StackPanel Grid.Row="9" Style="{StaticResource StackPanelHorizontal}">
             <Label Content="Ngày Sinh" HorizontalAlignment="Center" Width="65"/>
-            <TextBox Name="datetxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
-                     />
+            <DatePicker x:Name="datePicker" VerticalContentAlignment="Center" Width="235" Height="23" Background="#FFF4F4F4" Foreground="Black"></DatePicker>
+            <!--<TextBox Name="datetxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"-->
+                     <!--/>-->
         </StackPanel>
         <StackPanel Grid.Row="11" Style="{StaticResource StackPanelHorizontal}">
             <Label Content="Địa Chỉ" HorizontalAlignment="Center" Width="65"/>
@@ -71,7 +72,7 @@
         </StackPanel>
         <StackPanel Grid.Row="14" Style="{StaticResource StackPanelHorizontal}" Height="40" Margin="175,80,175,0" Width="100" VerticalAlignment="Top">
             <Button Name="okButton" Content="OK" 
-                Width="100" Height="40" Click="OKButton_Click" 
+                Width="100" Height="30" Click="OKButton_Click" 
                 Background="Black" Foreground="White"
                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Black"/>
         </StackPanel>

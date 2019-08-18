@@ -25,6 +25,8 @@ namespace Student_Management
         public addStudent()
         {
             InitializeComponent();
+            gioitinhCB.Items.Add("Nam");
+            gioitinhCB.Items.Add("Nữ");
         }
 
         private List<string> setValue()
@@ -32,9 +34,9 @@ namespace Student_Management
             List<string> information = new List<string>();
             information.Add(mssvtxtBox.Text);
             information.Add(hotentxtBox.Text);
-            information.Add(gioitinhtxtBox.Text);
+            information.Add(gioitinhCB.SelectedItem.ToString());
             information.Add(cmndtxtBox.Text);
-            information.Add(datetxtBox.Text);
+            information.Add(datePicker.Text);
             information.Add(diachitxtBox.Text);
             information.Add(loptxtBox.Text);
 
@@ -47,7 +49,7 @@ namespace Student_Management
             if (information.Contains(null) || information.Contains(""))
             {
                 MessageBox.Show("Vui lòng điền đủ thông tin", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                mssvtxtBox.Text = hotentxtBox.Text = gioitinhtxtBox.Text = cmndtxtBox.Text = datetxtBox.Text = diachitxtBox.Text = loptxtBox.Text = "";
+                mssvtxtBox.Text = hotentxtBox.Text = cmndtxtBox.Text = diachitxtBox.Text = loptxtBox.Text = "";
             }
             else
             {

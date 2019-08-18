@@ -80,7 +80,7 @@ namespace Student_Management
 
             Components _components = DataContext as Components;
             _components.NewScoreboard = handle.addScoreboard(filePath);
-            List<int> PAF = handle.getPaF(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            List<int> PAF = handle.getPaF(_components.NewScoreboard[0].MALOP, _components.NewScoreboard[0].MAMON);
             managerFrame2.Navigate(new viewScoreboard(DataContext as Components, PAF));
         }
 
@@ -130,6 +130,7 @@ namespace Student_Management
         private void ViewScheduleCB_DropDownClosed(object sender, EventArgs e)
         {
             viewMarkBtn.IsEnabled = true;
+            viewListStudentBtn.IsEnabled = true;
             editMarkBtn.IsEnabled = true;
         }
 
@@ -144,6 +145,7 @@ namespace Student_Management
             viewScheduleBtn.IsEnabled = false;
             viewScheduleCB.IsEnabled = false;
             viewMarkBtn.IsEnabled = false;
+            viewListStudentBtn.IsEnabled = false;
             editMarkBtn.IsEnabled = false;
         }
 
@@ -157,12 +159,14 @@ namespace Student_Management
 
         private void editMarkBtn_Click(object sender, RoutedEventArgs e)
         {
-            managerFrame2.Navigate(new editMark());
+            managerFrame2.Navigate(new editMark(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString()));
         }
 
         private void signObject_Click(object sender, RoutedEventArgs e)
         {
-
+            managerFrame1.Visibility = Visibility.Hidden;
+            signCoursesFrame.Visibility = Visibility.Visible;
+            managerFrame2.Content = null;
         }
 
         private void ModifyPassword_Click(object sender, RoutedEventArgs e)
@@ -173,6 +177,30 @@ namespace Student_Management
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();
+        }
+
+        private void signCoursesBtn_Click(object sender, RoutedEventArgs e)
+        {
+            managerFrame2.Navigate(new deleteStudent(false));
+        }
+
+        private void deleteStudentBtn_Click(object sender, RoutedEventArgs e)
+        {
+            managerFrame2.Navigate(new deleteStudent(true));
+        }
+
+        private void backBtn_Click(object sender, RoutedEventArgs e)
+        {
+            managerFrame1.Visibility = Visibility.Visible;
+            signCoursesFrame.Visibility = Visibility.Hidden;
+            managerFrame2.Content = null;
+        }
+
+        private void viewListStudentBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Components _components = DataContext as Components;
+            _components.NewClass = handle.viewClassOfCourses(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewScoreboard(DataContext as Components, null));
         }
     }
 }

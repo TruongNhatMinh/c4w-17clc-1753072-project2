@@ -37,7 +37,6 @@ namespace Student_Management
             }
         }
 
-
         private void ViewScheduleStuCB_DropDownClosed(object sender, EventArgs e)
         {
             viewMarkBtn.IsEnabled = true;

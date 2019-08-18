@@ -21,8 +21,11 @@ namespace Student_Management
     public partial class editMark : Page
     {
         ServiceInterface handle = new ServiceInterface();
-        public editMark()
+        string _class = "", _courses = "";
+        public editMark(string nCLass, string nCourses)
         {
+            _class = nCLass;
+            _courses = nCourses;
             InitializeComponent();
         }
 
@@ -42,8 +45,33 @@ namespace Student_Management
         {
             Components _components = DataContext as Components;
             List<string> mark = setValue();
-            handle.editMark(mark);
-            this.Content = null;
+            if (checkMark(mark[1]) && checkMark(mark[2]) && checkMark(mark[3]) && checkMark(mark[4]) && isStudentExist(_class, mssvtxtBox.Text, _courses))
+            {
+                handle.editMark(mark);
+                this.Content = null;
+            }
+            else
+            {
+                MessageBox.Show("Điểm nhập không hợp lệ", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                mssvtxtBox.Text = diemgktxtBox.Text = diemcktxtBox.Text = diemkhactxtBox.Text = diemtongtxtBox.Text = "";
+
+                mssvtxtBox.Focus();
+            }
+        }
+
+        private bool isStudentExist(string nClass, string mssv, string nCourses)
+        {
+            
+            return handle.isStudentExist(nClass, mssv, nCourses);
+        }
+
+        private bool checkMark(string _mark)
+        {
+            float mark;
+            bool success = float.TryParse(_mark, out mark);
+            if (mark < 0 || mark > 10 || !success)
+                return false;
+            return true;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

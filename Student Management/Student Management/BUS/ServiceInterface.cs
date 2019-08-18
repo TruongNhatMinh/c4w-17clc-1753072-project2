@@ -50,6 +50,11 @@ namespace Student_Management.BUS
         {
             return returnClass(handle.viewClass(nClass));
         }
+        
+        internal ObservableCollection<Student> viewClassOfCourses(string nClass, string nCourses)
+        {
+            return returnClass(handle.viewClassOfCourses(nClass, nCourses));
+        }
 
         internal List<string> nameCourses(string nClass)
         {
@@ -161,6 +166,21 @@ namespace Student_Management.BUS
         {
             handle.editMark(mark);
         }
+
+        internal bool isStudentExist(string nClass, string mssv, string nCourses)
+        {
+            return handle.isStudentExist(nClass, mssv, nCourses);
+        }
+
+        internal void deleteStudent(string mssv, string nClass, string nCourses)
+        {
+            handle.deleteStudent(mssv, nClass, nCourses);
+        }
+
+        //internal void deleteStudent(string mmsv, string nClass, string nCourses)
+        //{
+
+        //}
 
         internal bool modifyPassword(string account, string oldPassword, string newPassword)
         {

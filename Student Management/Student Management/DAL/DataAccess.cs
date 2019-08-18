@@ -71,6 +71,23 @@ namespace Student_Management.DAL
 
         public List<string[]> addClass(string filePath)
         {
+            List<string[]> saveClass = new List<string[]>();
+            string[] parameters;
+            char[] spliter = new char[] { ',' };
+            StreamReader sourceFile = new StreamReader(filePath);
+            string nameClass = "";
+
+            parameters = sourceFile.ReadLine().Split(spliter, 7);
+            if(parameters.Length == 1)
+            {
+                nameClass = parameters[0];
+                parameters = sourceFile.ReadLine().Split(spliter, 7);
+                if (parameters.Length != 7)
+                    return saveClass;
+            }
+
+            int siso = 0;
+
             cnn.Open();
             OleDbCommand cmd = new OleDbCommand();
             OleDbCommand cmd2 = new OleDbCommand();
@@ -103,16 +120,6 @@ namespace Student_Management.DAL
                 }
 
             }
-
-            List<string[]> saveClass = new List<string[]>();
-            string[] parameters;
-            char[] spliter = new char[] { ',' };
-            StreamReader sourceFile = new StreamReader(filePath);
-
-            parameters = sourceFile.ReadLine().Split(spliter, 7);
-            string nameClass = parameters[0];
-            parameters = sourceFile.ReadLine().Split(spliter, 7);
-            int siso = 0;
 
             while (!sourceFile.EndOfStream)
             {
@@ -189,13 +196,22 @@ namespace Student_Management.DAL
             StreamReader sourceFile = new StreamReader(path);
 
             parameters = sourceFile.ReadLine().Split(spliter, 4);
+            if (parameters.Length != 1)
+                return saveSchedule;
             string nameClass = parameters[0];
             parameters = sourceFile.ReadLine().Split(spliter, 4);
+
+
+            OleDbCommand deleteCmd = new OleDbCommand();
+            deleteCmd.Connection = cnn;
+            deleteCmd.CommandText = $"DELETE FROM StudentOfCourse WHERE MALOP = '{nameClass}' AND IDDELETE is null";
+            deleteCmd.ExecuteNonQuery();
 
             while (!sourceFile.EndOfStream)
             {
                 cmd.CommandText = $"INSERT INTO Schedule(STT, MAMON, TENMON, PHONGHOC, MALOP) VALUES(?, ?, ?, ?, ?)";
-                cmd2.CommandText = $"INSERT INTO Account VALUES(?, ?, ?)";
+
+                cmd2.CommandText = $"INSERT INTO StudentOfCourse(MALOP, MAMON) VALUES(?, ?)";
                 parameters = sourceFile.ReadLine().Split(spliter, 4);
 
                 parameters = new string[] { parameters[0].Replace(" ", ""), parameters[1].Replace(" ", ""),
@@ -217,6 +233,18 @@ namespace Student_Management.DAL
                 {
                     cmd.Parameters.Clear();
                 }
+
+                try
+                {
+                    cmd2.Parameters.AddWithValue("@MALOP", nameClass);
+                    cmd2.Parameters.AddWithValue("@MAMON", parameters[1]);
+                    cmd2.ExecuteNonQuery();
+                }
+                catch (Exception) { }
+                finally
+                {
+                    cmd2.Parameters.Clear();
+                }
             }
             cnn.Close();
             return saveSchedule;
@@ -234,6 +262,8 @@ namespace Student_Management.DAL
             StreamReader sourceFile = new StreamReader(path);
 
             parameters = sourceFile.ReadLine().Split(spliter, 2);
+            if (parameters.Length != 2)
+                return saveScoreboard;
             string nameClass = parameters[0];
             string codeCourses = parameters[1];
 
@@ -345,6 +375,31 @@ namespace Student_Management.DAL
                 saveClass.Add(parameters);
             }
  
+            cnn.Close();
+            return saveClass;
+        }
+
+        public List<string[]> viewClassOfCourses(string nClass, string nCourses)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            List<string[]> saveClass = new List<string[]>();
+
+            cmd.CommandText = $"SELECT S.STT, S.MSSV, S.HOTEN, S.GIOITINH, S.CMND, S.NGAYSINH, S.DIACHI, S.MALOP FROM Student S Where S.MALOP = ? AND S.MSSV NOT IN(SELECT St.IDDELETE FROM StudentOfCourse WHERE St.MALOP = ? AND St.MAMON = ?) ";
+            cmd.Parameters.AddWithValue("@S.MALOP", nClass);
+            cmd.Parameters.AddWithValue("@St.MALOP", nClass);
+            cmd.Parameters.AddWithValue("@St.MAMON", nCourses);
+            var rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                string[] parameters = new string[] {rd.GetInt32(0).ToString(), rd.GetString(1), rd.GetString(2), rd.GetString(3), rd.GetString(4),
+                rd.GetDateTime(5).ToShortDateString().ToString(), rd.GetString(6), rd.GetString(7)};
+                saveClass.Add(parameters);
+            }
+
             cnn.Close();
             return saveClass;
         }
@@ -573,6 +628,70 @@ namespace Student_Management.DAL
                 cmd.Parameters.Clear();
                 cnn.Close();
             }
+        }
+
+        public bool isStudentExist(string nClass, string mssv, string nCourses)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            List<string> saveNameCourses = new List<string>();
+            int _check = 0;
+            try
+            {
+                cmd.CommandText = $"SELECT Count(MSSV) FROM Scoreboard WHERE MALOP = ? AND MSSV = ? AND MAMON = ?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MSSV", mssv);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+                var rd = cmd.ExecuteReader();
+                _check = (int)cmd.ExecuteScalar();
+
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+                cnn.Close();
+            }
+
+            if (_check == 1)
+                return true;
+
+            return false;
+        }
+
+        public void deleteStudent(string mssv, string nClass, string nCourses)
+        {
+            cnn.Open();
+
+            OleDbCommand deleteCmd = new OleDbCommand();
+            deleteCmd.Connection = cnn;
+            deleteCmd.CommandText = $"DELETE FROM StudentOfCourse WHERE MALOP = ? AND MAMON = ? AND (IDSIGN = ? OR IDDELETE = ?)";
+            deleteCmd.Parameters.AddWithValue("@MALOP", nClass);
+            deleteCmd.Parameters.AddWithValue("@MAMON", nCourses);
+            deleteCmd.Parameters.AddWithValue("@IDSIGN", mssv);
+            deleteCmd.Parameters.AddWithValue("@IDDELETE", mssv);
+            deleteCmd.ExecuteNonQuery();
+
+
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            cmd.CommandText = $"INSERT INTO StudentOfCourse(MALOP, MAMON, IDDELETE) VALUES(?, ?, ?)";
+
+            try
+            {
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+                cmd.Parameters.AddWithValue("@IDDELETE", mssv);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+            cnn.Close();
         }
 
         public bool modifyPassword(string account, string oldPassword, string newPassword)

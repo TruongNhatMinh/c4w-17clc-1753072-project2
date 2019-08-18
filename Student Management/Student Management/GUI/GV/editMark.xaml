@@ -34,28 +34,28 @@
         </Grid.RowDefinitions>
         <Label Content="Sửa điểm" Style="{StaticResource HeaderLable}" Grid.Row="1" VerticalAlignment="Center"/>
         <StackPanel Grid.Row="3" Style="{StaticResource StackPanelHorizontal}">
-            <Label Content="MSSV" HorizontalAlignment="Center" Width="65"/>
+            <Label Content="MSSV" HorizontalAlignment="Center" Width="70"/>
             <TextBox Name="mssvtxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
                      />
         </StackPanel>
 
         <StackPanel Grid.Row="5" Style="{StaticResource StackPanelHorizontal}">
-            <Label Content="Điểm Giữa Kì" HorizontalAlignment="Center" Width="65"/>
+            <Label Content="Điểm Giữa Kì" HorizontalAlignment="Center" Width="70"/>
             <TextBox Name="diemgktxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
                      />
         </StackPanel>
         <StackPanel Grid.Row="7" Style="{StaticResource StackPanelHorizontal}">
-            <Label Content="Điểm Cuối Kì" HorizontalAlignment="Center" Width="65"/>
+            <Label Content="Điểm Cuối Kì" HorizontalAlignment="Center" Width="70"/>
             <TextBox Name="diemcktxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
                      />
         </StackPanel>
         <StackPanel Grid.Row="9" Style="{StaticResource StackPanelHorizontal}">
-            <Label Content="Điểm Khác" HorizontalAlignment="Center" Width="65"/>
+            <Label Content="Điểm Khác" HorizontalAlignment="Center" Width="70"/>
             <TextBox Name="diemkhactxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
                      />
         </StackPanel>
         <StackPanel Grid.Row="11" Style="{StaticResource StackPanelHorizontal}">
-            <Label Content="Điểm Tổng" HorizontalAlignment="Center" Width="65"/>
+            <Label Content="Điểm Tổng" HorizontalAlignment="Center" Width="70"/>
             <TextBox Name="diemtongtxtBox" Style="{StaticResource TextBoxLogIn}" Text="{Binding CurrentAccount, Mode=OneWayToSource, UpdateSourceTrigger=Explicit}" KeyDown="Enter_KeyDown"
                      />
         </StackPanel>
