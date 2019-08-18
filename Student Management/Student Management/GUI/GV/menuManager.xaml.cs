@@ -39,6 +39,7 @@ namespace Student_Management
 
         private void addClass_Click(object sender, RoutedEventArgs e)
         {
+            managerFrame2.Content = null;
             string filePath = getImportFilePath();
             if (string.IsNullOrEmpty(filePath)) return;
             bool add = true;
@@ -62,6 +63,7 @@ namespace Student_Management
 
         private void addSchedule_Click(object sender, RoutedEventArgs e)
         {
+            managerFrame2.Content = null;
             string filePath = getImportFilePath();
             if (string.IsNullOrEmpty(filePath)) return;
 
@@ -70,12 +72,9 @@ namespace Student_Management
             managerFrame2.Navigate(new viewSchedule(DataContext as Components));
         }
 
-        private void viewSchedule_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void addScoreboard_Click(object sender, RoutedEventArgs e)
         {
+            managerFrame2.Content = null;
             string filePath = getImportFilePath();
             if (string.IsNullOrEmpty(filePath)) return;
 
@@ -100,10 +99,10 @@ namespace Student_Management
 
         private void ViewClassCB_DropDownClosed(object sender, EventArgs e)
         {
-            List<string> nCourses = handle.nameCourses(viewClassCB.SelectedItem.ToString());
+            List<string> nClass = handle.nameCourses(viewClassCB.SelectedItem.ToString());
             viewScheduleCB.Items.Clear();
 
-            foreach (string _courses in nCourses)
+            foreach (string _courses in nClass)
             {
                 viewScheduleCB.Items.Add(_courses);
             }
@@ -129,6 +128,8 @@ namespace Student_Management
 
         private void ViewScheduleCB_DropDownClosed(object sender, EventArgs e)
         {
+            viewMarkBtn.IsEnabled = true;
+            editMarkBtn.IsEnabled = true;
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -147,11 +148,14 @@ namespace Student_Management
 
         private void viewMarkBtn_Click(object sender, RoutedEventArgs e)
         {
+            Components _components = DataContext as Components;
+            _components.NewScoreboard = handle.viewScoreboard(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewScoreboard(DataContext as Components));
         }
 
         private void editMarkBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            managerFrame2.Navigate(new editMark());
         }
 
         private void signObject_Click(object sender, RoutedEventArgs e)

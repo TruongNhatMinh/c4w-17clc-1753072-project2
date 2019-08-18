@@ -44,8 +44,17 @@ namespace Student_Management
         private void newStudent()
         {
             List<string> information = setValue();
-            handle.addStudent(information);
-            this.Content = null;
+            if (information.Contains(null) || information.Contains(""))
+            {
+                MessageBox.Show("Vui lòng điền đủ thông tin", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                mssvtxtBox.Text = hotentxtBox.Text = gioitinhtxtBox.Text = cmndtxtBox.Text = datetxtBox.Text = diachitxtBox.Text = loptxtBox.Text = "";
+            }
+            else
+            {
+                handle.addStudent(information);
+                this.Content = null;
+            }
+
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

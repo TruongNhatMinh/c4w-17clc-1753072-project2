@@ -109,6 +109,11 @@ namespace Student_Management.BUS
             return returnScoreboard(handle.addScoreboard(filePath));
         }
 
+        internal ObservableCollection<Scoreboard> viewScoreboard(string nClass, string nCourses)
+        {
+            return returnScoreboard(handle.viewScoreboard(nClass, nCourses));
+        }
+
         private ObservableCollection<Scoreboard> returnScoreboard(List<string[]> getScoreboard)
         {
             ObservableCollection<Scoreboard> _getScoreboard = new ObservableCollection<Scoreboard>();
@@ -129,6 +134,11 @@ namespace Student_Management.BUS
                 });
             }
             return _getScoreboard;
+        }
+
+        internal void editMark(List<string> mark)
+        {
+            handle.editMark(mark);
         }
 
         internal bool modifyPassword(string account, string oldPassword, string newPassword)

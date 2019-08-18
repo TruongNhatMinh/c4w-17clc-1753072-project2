@@ -271,10 +271,10 @@ namespace Student_Management.DAL
                     cmd.Parameters.AddWithValue("@MSSV", parameters[1]);
                     cmd.Parameters.AddWithValue("@HOTEN", parameters[2]);
                     cmd.Parameters.AddWithValue("@MAMON", codeCourses);
-                    cmd.Parameters.AddWithValue("@DIEMGK", parameters[3]);
-                    cmd.Parameters.AddWithValue("@DIEMCK", parameters[4]);
-                    cmd.Parameters.AddWithValue("@DIEMKHAC", parameters[5]);
-                    cmd.Parameters.AddWithValue("@DIEMTB", parameters[6]);
+                    cmd.Parameters.AddWithValue("@DIEMGK", parameters[4]);
+                    cmd.Parameters.AddWithValue("@DIEMCK", parameters[5]);
+                    cmd.Parameters.AddWithValue("@DIEMKHAC", parameters[6]);
+                    cmd.Parameters.AddWithValue("@DIEMTB", parameters[7]);
                     cmd.Parameters.AddWithValue("@MALOP", nameClass);
                     cmd.ExecuteNonQuery();
                 }
@@ -461,6 +461,54 @@ namespace Student_Management.DAL
 
             cnn.Close();
             return saveSchedule;
+        }
+
+        public List<string[]> viewScoreboard(string nClass, string nCourses)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            List<string[]> saveScoreboard = new List<string[]>();
+
+            cmd.CommandText = $"Select STT, MSSV, HOTEN, MAMON, DIEMGK, DIEMCK, DIEMKHAC, DIEMTB, MALOP FROM Scoreboard Where MALOP = ? and MAMON = ?";
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            cmd.Parameters.AddWithValue("@MAMON", nCourses);
+
+            var rd = cmd.ExecuteReader();
+
+            while (rd.Read())
+            {
+                string[] parameters = new string[] { rd.GetInt32(0).ToString(), rd.GetString(1), rd.GetString(2), rd.GetString(3), ((float)rd.GetDouble(4)).ToString(),
+                ((float)rd.GetDouble(5)).ToString(), ((float)rd.GetDouble(6)).ToString(), ((float)rd.GetDouble(7)).ToString(), rd.GetString(8)};
+                saveScoreboard.Add(parameters);
+            }
+
+            cnn.Close();
+            return saveScoreboard;
+        }
+
+        public void editMark(List<string> mark)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"UPDATE Scoreboard set DIEMGK = ?, DIEMCK = ?, DIEMKHAC = ?, DIEMTB = ? Where MSSV = ?";
+            try
+            {
+                cmd.Parameters.AddWithValue("@DIEMGK", float.Parse(mark[1]));
+                cmd.Parameters.AddWithValue("@DIEMCK", float.Parse(mark[2]));
+                cmd.Parameters.AddWithValue("@DIEMKHAC", float.Parse(mark[3]));
+                cmd.Parameters.AddWithValue("@DIEMTB", float.Parse(mark[4]));
+                cmd.Parameters.AddWithValue("@MSSV", mark[0]);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+                cnn.Close();
+            }
         }
 
         public bool modifyPassword(string account, string oldPassword, string newPassword)
