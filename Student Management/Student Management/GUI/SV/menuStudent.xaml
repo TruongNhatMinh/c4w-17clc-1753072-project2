@@ -1,0 +1,52 @@
+﻿<Page x:Class="Student_Management.menuStudent"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Student_Management"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="menuStudent">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" x:Name="controlFrame" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="1">
+                <Label Content="Danh sách môn học" HorizontalAlignment="Center" Width="130" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="2">
+                <ComboBox x:Name="viewScheduleCB" ItemsSource="{Binding SourceList}" 
+               Width="100" IsEnabled="False" DropDownClosed="ViewScheduleCB_DropDownClosed"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="3">
+                <Button x:Name="viewMarkBtn" Content="Xem điểm" Style="{StaticResource button}" Click="viewMarkBtn_Click"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="5">
+                <Button x:Name="modifyPassword" Content="Đổi mật khẩu" Style="{StaticResource button}" Margin="10" Click="ModifyPassword_Click"/>
+            </StackPanel>
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="6">
+                <Button x:Name="exit" Content="Thoát" Style="{StaticResource button}" Margin="10" Click="Exit_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Frame x:Name="viewFrame" Grid.Column="1"/>
+    </Grid>
+</Page>

@@ -53,6 +53,7 @@ namespace Student_Management.GUI
                     else
                     {
                         MessageBox.Show("Đăng nhập thành công", "Announce", MessageBoxButton.OK, MessageBoxImage.Information);
+                        this.NavigationService.Navigate(new menuStudent(DataContext as Components));
                     }
                 }
             }
