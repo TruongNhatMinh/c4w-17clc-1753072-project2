@@ -7,6 +7,7 @@ using System.ComponentModel;
 
 namespace Student_Management.BUS
 {
+
     public class Student : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

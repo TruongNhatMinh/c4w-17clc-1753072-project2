@@ -21,21 +21,32 @@ namespace Student_Management
     public partial class menuStudent : Page
     {
         ServiceInterface handle = new ServiceInterface();
+        string _class = "";
         public menuStudent(Components _components)
         {
             DataContext = _components;
+            List<string> nClass = handle.nameClass(_components.CurrentAccount);
+            _class = nClass[0];
+            List<string> nCourses = handle.nameCourses(nClass[0]);
+
             InitializeComponent();
+
+            foreach (string _courses in nCourses)
+            {
+                viewScheduleStuCB.Items.Add(_courses);
+            }
         }
 
-        private void ViewScheduleCB_DropDownClosed(object sender, EventArgs e)
-        {
 
+        private void ViewScheduleStuCB_DropDownClosed(object sender, EventArgs e)
+        {
+            viewMarkBtn.IsEnabled = true;
         }
 
         private void viewMarkBtn_Click(object sender, RoutedEventArgs e)
         {
             Components _components = DataContext as Components;
-            _components.NewScoreboard = handle.viewScoreboard(null, viewScheduleCB.SelectedItem.ToString());
+            _components.NewScoreboard = handle.viewScoreboard(_class, _components.CurrentAccount, viewScheduleStuCB.SelectedItem.ToString());
             viewFrame.Navigate(new viewScoreboard(DataContext as Components));
         }
 
@@ -47,6 +58,7 @@ namespace Student_Management
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.NavigationService.GoBack();
+            //viewScheduleStuCB.Items.Clear();
         }
     }
 }

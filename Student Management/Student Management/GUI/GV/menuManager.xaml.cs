@@ -86,7 +86,7 @@ namespace Student_Management
 
         private void viewClass_Click(object sender, RoutedEventArgs e)
         {
-            List<string> nClass = handle.nameClass();
+            List<string> nClass = handle.nameClass(null);
             managerFrame1.Visibility = Visibility.Hidden;
             managerFrame2.Content = null;
             viewFrame.Visibility = Visibility.Visible;
@@ -149,7 +149,7 @@ namespace Student_Management
         private void viewMarkBtn_Click(object sender, RoutedEventArgs e)
         {
             Components _components = DataContext as Components;
-            _components.NewScoreboard = handle.viewScoreboard(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            _components.NewScoreboard = handle.viewScoreboard(viewClassCB.SelectedItem.ToString(), null, viewScheduleCB.SelectedItem.ToString());
             managerFrame2.Navigate(new viewScoreboard(DataContext as Components));
         }
 

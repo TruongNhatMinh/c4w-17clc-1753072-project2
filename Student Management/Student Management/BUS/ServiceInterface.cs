@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Student_Management.DAL;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Student_Management.BUS
 {
@@ -19,9 +20,14 @@ namespace Student_Management.BUS
                 return state.accountIsNotExist;
             int sta = handle.comparePassword(username, password);
             if (sta == 2)
+            {
                 return state.isStudent;
+            }
+                
             else if (sta == 3)
+            {
                 return state.isManager;
+            }          
             return state.incorrectPassword;
         }
 
@@ -35,9 +41,9 @@ namespace Student_Management.BUS
             return returnClass(handle.addClass(filePath));
         }
 
-        internal List<string> nameClass()
+        internal List<string> nameClass(string user)
         {
-            return handle.nameClass();
+            return handle.nameClass(user);
         }
 
         internal ObservableCollection<Student> viewClass(string nClass)
@@ -109,9 +115,9 @@ namespace Student_Management.BUS
             return returnScoreboard(handle.addScoreboard(filePath));
         }
 
-        internal ObservableCollection<Scoreboard> viewScoreboard(string nClass, string nCourses)
+        internal ObservableCollection<Scoreboard> viewScoreboard(string nClass, string mssv, string nCourses)
         {
-            return returnScoreboard(handle.viewScoreboard(nClass, nCourses));
+            return returnScoreboard(handle.viewScoreboard(nClass, mssv, nCourses));
         }
 
         private ObservableCollection<Scoreboard> returnScoreboard(List<string[]> getScoreboard)
@@ -145,5 +151,7 @@ namespace Student_Management.BUS
         {
             return handle.modifyPassword(account, oldPassword, newPassword);
         }
+
+
     }
 }

@@ -33,11 +33,11 @@
                 <Label Content="Danh sách môn học" HorizontalAlignment="Center" Width="130" HorizontalContentAlignment="Center"/>
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="2">
-                <ComboBox x:Name="viewScheduleCB" ItemsSource="{Binding SourceList}" 
-               Width="100" IsEnabled="False" DropDownClosed="ViewScheduleCB_DropDownClosed"/>
+                <ComboBox x:Name="viewScheduleStuCB" ItemsSource="{Binding SourceList}" 
+               Width="100" DropDownClosed="ViewScheduleStuCB_DropDownClosed"/>
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="3">
-                <Button x:Name="viewMarkBtn" Content="Xem điểm" Style="{StaticResource button}" Click="viewMarkBtn_Click"/>
+                <Button x:Name="viewMarkBtn" IsEnabled="False" Content="Xem điểm" Style="{StaticResource button}" Click="viewMarkBtn_Click"/>
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="5">
                 <Button x:Name="modifyPassword" Content="Đổi mật khẩu" Style="{StaticResource button}" Margin="10" Click="ModifyPassword_Click"/>

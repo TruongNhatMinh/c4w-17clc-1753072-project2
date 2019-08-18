@@ -16,6 +16,7 @@ namespace Student_Management.BUS
             get { return currentAccount; }
             set { currentAccount = value; }
         }
+
         private ObservableCollection<Student> _class = new ObservableCollection<Student>();
         private ObservableCollection<Schedule> _schedule = new ObservableCollection<Schedule>();
         private ObservableCollection<Scoreboard> _scoreboard = new ObservableCollection<Scoreboard>();

@@ -288,16 +288,27 @@ namespace Student_Management.DAL
             return saveScoreboard;
         }
 
-        public List<string> nameClass()
+        public List<string> nameClass(string user)
         {
             cnn.Open();
             OleDbCommand cmd = new OleDbCommand();
             cmd.Connection = cnn;
             List<string> saveNameClass = new List<string>();
 
-            try
+            if(user == null)
             {
                 cmd.CommandText = $"Select MALOP From Class";
+            }
+
+            else
+            {
+                cmd.CommandText = $"Select MALOP From Student Where MSSV = ?";
+                cmd.Parameters.AddWithValue("@MSSV", user);
+            }
+
+            try
+            {
+
                 var rd = cmd.ExecuteReader();
 
                 while (rd.Read())
@@ -463,7 +474,7 @@ namespace Student_Management.DAL
             return saveSchedule;
         }
 
-        public List<string[]> viewScoreboard(string nClass, string nCourses)
+        public List<string[]> viewScoreboard(string nClass, string mssv, string nCourses)
         {
             cnn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -471,9 +482,19 @@ namespace Student_Management.DAL
 
             List<string[]> saveScoreboard = new List<string[]>();
 
-            cmd.CommandText = $"Select STT, MSSV, HOTEN, MAMON, DIEMGK, DIEMCK, DIEMKHAC, DIEMTB, MALOP FROM Scoreboard Where MALOP = ? and MAMON = ?";
-            cmd.Parameters.AddWithValue("@MALOP", nClass);
-            cmd.Parameters.AddWithValue("@MAMON", nCourses);
+            if (mssv == null)
+            {
+                cmd.CommandText = $"Select STT, MSSV, HOTEN, MAMON, DIEMGK, DIEMCK, DIEMKHAC, DIEMTB, MALOP FROM Scoreboard Where MALOP = ? and MAMON = ?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+            }
+            else
+            {
+                cmd.CommandText = $"Select STT, MSSV, HOTEN, MAMON, DIEMGK, DIEMCK, DIEMKHAC, DIEMTB, MALOP FROM Scoreboard Where MALOP = ? and MSSV = ? and MAMON = ?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MSSV", mssv);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+            }
 
             var rd = cmd.ExecuteReader();
 
