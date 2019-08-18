@@ -16,8 +16,15 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            
+
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding NewScoreboard}">
+        <ListView ItemsSource="{Binding NewScoreboard}" Margin="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="STT" DisplayMemberBinding="{Binding STT}"/>
@@ -29,8 +36,21 @@
                     <GridViewColumn Header="Điểm Khác" DisplayMemberBinding="{Binding DIEMKHAC}"/>
                     <GridViewColumn Header="Điểm TB" DisplayMemberBinding="{Binding DIEMTB}"/>
                     <GridViewColumn Header="Lớp" DisplayMemberBinding="{Binding MALOP}"/>
+                    <GridViewColumn Header="" DisplayMemberBinding="{Binding POF}"/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="1">
+            <Label x:Name="PP" Width="200" HorizontalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="2">
+            <Label x:Name="FP" Width="200" HorizontalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="3">
+            <Label x:Name="PN" Width="200" HorizontalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="4">
+            <Label x:Name="FN" Width="200" HorizontalContentAlignment="Center"/>
+        </StackPanel>
     </Grid>
 </Page>

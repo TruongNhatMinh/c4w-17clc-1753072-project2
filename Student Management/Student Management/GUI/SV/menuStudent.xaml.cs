@@ -47,7 +47,7 @@ namespace Student_Management
         {
             Components _components = DataContext as Components;
             _components.NewScoreboard = handle.viewScoreboard(_class, _components.CurrentAccount, viewScheduleStuCB.SelectedItem.ToString());
-            viewFrame.Navigate(new viewScoreboard(DataContext as Components));
+            viewFrame.Navigate(new viewScoreboard(DataContext as Components, null));
         }
 
         private void ModifyPassword_Click(object sender, RoutedEventArgs e)

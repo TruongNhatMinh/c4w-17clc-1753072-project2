@@ -59,6 +59,7 @@ namespace Student_Management.BUS
         private float diemkhac;
         private float diemtb;
         private string malop = "";
+        private string pof = "";
 
         public int STT { get { return stt; } set { stt = value; OnPropertyChanged("STT"); } }
         public string MSSV { get { return mssv; } set { mssv = value; OnPropertyChanged("MSSV"); } }
@@ -69,13 +70,14 @@ namespace Student_Management.BUS
         public float DIEMKHAC { get { return diemkhac; } set { diemkhac = value; OnPropertyChanged("DIEMKHAC"); } }
         public float DIEMTB { get { return diemtb; } set { diemtb = value; OnPropertyChanged("DIEMTB"); } }
         public string MALOP { get { return malop; } set { malop = value; OnPropertyChanged("MALOP"); } }
+        public string POF { get { return pof; } set { pof = value; OnPropertyChanged("POF"); } }
 
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void modifyComponents(int _stt, string _mssv, string _hoten, string _mamon, float _diemgk, float _diemck, float _diemkhac, float _diemtb, string _malop)
+        public void modifyComponents(int _stt, string _mssv, string _hoten, string _mamon, float _diemgk, float _diemck, float _diemkhac, float _diemtb, string _malop, string _pof)
         {
             STT = _stt;
             MSSV = _mssv;
@@ -86,6 +88,7 @@ namespace Student_Management.BUS
             DIEMKHAC = _diemkhac;
             DIEMTB = _diemtb;
             MALOP = _malop;
+            POF = _pof;
         }
 
     }

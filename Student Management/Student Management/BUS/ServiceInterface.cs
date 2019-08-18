@@ -126,6 +126,15 @@ namespace Student_Management.BUS
 
             foreach (string[] _schedule in getScoreboard)
             {
+                string _pof = "";
+                if (float.Parse(_schedule[7]) < 5)
+                {
+                    _pof = "FAIL";
+                }
+                else
+                {
+                    _pof = "PASS";
+                }
                 _getScoreboard.Add(new Scoreboard()
                 {
                     STT = Int32.Parse(_schedule[0]),
@@ -136,10 +145,16 @@ namespace Student_Management.BUS
                     DIEMCK = float.Parse(_schedule[5]),
                     DIEMKHAC = float.Parse(_schedule[6]),
                     DIEMTB = float.Parse(_schedule[7]),
-                    MALOP = _schedule[8]
+                    MALOP = _schedule[8],
+                    POF = _pof
                 });
             }
             return _getScoreboard;
+        }
+
+        internal List<int> getPaF(string nClass, string nCourses)
+        {
+            return handle.getPaF(nClass, nCourses);
         }
 
         internal void editMark(List<string> mark)

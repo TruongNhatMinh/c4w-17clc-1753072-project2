@@ -80,7 +80,8 @@ namespace Student_Management
 
             Components _components = DataContext as Components;
             _components.NewScoreboard = handle.addScoreboard(filePath);
-            managerFrame2.Navigate(new viewScoreboard(DataContext as Components));
+            List<int> PAF = handle.getPaF(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewScoreboard(DataContext as Components, PAF));
         }
 
 
@@ -150,7 +151,8 @@ namespace Student_Management
         {
             Components _components = DataContext as Components;
             _components.NewScoreboard = handle.viewScoreboard(viewClassCB.SelectedItem.ToString(), null, viewScheduleCB.SelectedItem.ToString());
-            managerFrame2.Navigate(new viewScoreboard(DataContext as Components));
+            List<int> PAF = handle.getPaF(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
+            managerFrame2.Navigate(new viewScoreboard(DataContext as Components, PAF));
         }
 
         private void editMarkBtn_Click(object sender, RoutedEventArgs e)

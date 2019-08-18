@@ -43,13 +43,9 @@
                 <Button Content="Xem lớp" Style="{StaticResource button}" Margin="10" Click="viewClass_Click" x:Name="viewClass"/>
             </StackPanel>
             <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="4">
-            </StackPanel>
-            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="5">
-            </StackPanel>
-            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="6">
                 <Button x:Name="modifyPassword" Content="Đổi mật khẩu" Style="{StaticResource button}" Margin="10" Click="ModifyPassword_Click"/>
             </StackPanel>
-            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="7">
+            <StackPanel Style="{StaticResource StackPanelHorizontal}" Grid.Row="6">
                 <Button x:Name="exit" Content="Thoát" Style="{StaticResource button}" Margin="10" Click="Exit_Click"/>
             </StackPanel>
         </Grid>

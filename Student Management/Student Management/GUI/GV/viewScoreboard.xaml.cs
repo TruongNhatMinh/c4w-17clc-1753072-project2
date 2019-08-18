@@ -20,10 +20,17 @@ namespace Student_Management
     /// </summary>
     public partial class viewScoreboard : Page
     {
-        public viewScoreboard(Components _components)
+        public viewScoreboard(Components _components, List<int> PaF)
         {
             DataContext = _components;
             InitializeComponent();
+            if(PaF != null)
+            {
+                PP.Content = "Pass Percentage: " + ((double)PaF[1] / (PaF[0] + PaF[1])).ToString("0.00") + " %";
+                FP.Content = "Fail Percentage: " + ((double)PaF[0] / (PaF[0] + PaF[1])).ToString("0.00") + " %";
+                PN.Content = "Pass Number: " + PaF[1].ToString();
+                FN.Content = "Fail Number: " + PaF[0].ToString();
+            }
         }
     }
 }

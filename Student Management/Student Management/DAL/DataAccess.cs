@@ -509,6 +509,49 @@ namespace Student_Management.DAL
             return saveScoreboard;
         }
 
+        public List<int> getPaF(string nClass, string nCourses)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            List<int> PaF = new List<int>();
+            float checkMark = 5;
+            cmd.Connection = cnn;
+            try
+            {
+                cmd.CommandText = $"Select Count(DIEMTB) From Scoreboard Where MALOP = ? and MAMON = ? and DIEMTB < ?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+                cmd.Parameters.AddWithValue("@DIEMTB", checkMark);
+                int stt = (int)cmd.ExecuteScalar();
+                PaF.Add(stt);
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+                
+            }
+
+
+            try
+            {
+                cmd.CommandText = $"Select Count(DIEMTB) From Scoreboard Where MALOP = ? and MAMON = ? and DIEMTB >= ?";
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+                cmd.Parameters.AddWithValue("@DIEMTB", checkMark);
+                int stt = (int)cmd.ExecuteScalar();
+                PaF.Add(stt);
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+
+            cnn.Close();
+            return PaF;
+        }
+
         public void editMark(List<string> mark)
         {
             cnn.Open();
