@@ -47,8 +47,7 @@ namespace Student_Management
         {
             if (lSign.Content.ToString() == "ĐĂNG KÝ MÔN HỌC")
             {
-                //MessageBox.Show("Tính năng chưa cập nhật", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                //handle.deleteStudent(mssvtxtBox.Text, loptxtBox.Text, mamonCB.SelectedItem.ToString());
+                handle.signCourses(mssvtxtBox.Text, loptxtBox.Text, mamonCB.SelectedItem.ToString());
                 this.Content = null;
             }
             else

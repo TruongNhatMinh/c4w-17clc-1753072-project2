@@ -177,10 +177,10 @@ namespace Student_Management.BUS
             handle.deleteStudent(mssv, nClass, nCourses);
         }
 
-        //internal void deleteStudent(string mmsv, string nClass, string nCourses)
-        //{
-
-        //}
+        internal void signCourses(string mssv, string nClass, string nCourses)
+        {
+            handle.signCourses(mssv, nClass, nCourses);
+        }
 
         internal bool modifyPassword(string account, string oldPassword, string newPassword)
         {

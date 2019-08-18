@@ -387,10 +387,14 @@ namespace Student_Management.DAL
 
             List<string[]> saveClass = new List<string[]>();
 
-            cmd.CommandText = $"SELECT S.STT, S.MSSV, S.HOTEN, S.GIOITINH, S.CMND, S.NGAYSINH, S.DIACHI, S.MALOP FROM Student S Where S.MALOP = ? AND S.MSSV NOT IN(SELECT St.IDDELETE FROM StudentOfCourse WHERE St.MALOP = ? AND St.MAMON = ?) ";
-            cmd.Parameters.AddWithValue("@S.MALOP", nClass);
-            cmd.Parameters.AddWithValue("@St.MALOP", nClass);
-            cmd.Parameters.AddWithValue("@St.MAMON", nCourses);
+            cmd.CommandText = $"SELECT STT, MSSV, HOTEN, GIOITINH, CMND, NGAYSINH, DIACHI, MALOP FROM Student Where (MALOP = ? " +
+                $"AND MSSV NOT IN(SELECT IDDELETE FROM StudentOfCourse WHERE MALOP = ? AND MAMON = ? AND IDDELETE is not null)) " +
+                $"OR MSSV IN(SELECT IDSIGN FROM StudentOfCourse WHERE MALOP = ? AND MAMON = ? AND IDSIGN is not null)";
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            cmd.Parameters.AddWithValue("@MAMON", nCourses);
+            cmd.Parameters.AddWithValue("@MALOP", nClass);
+            cmd.Parameters.AddWithValue("@MAMON", nCourses);
             var rd = cmd.ExecuteReader();
 
             while (rd.Read())
@@ -664,6 +668,16 @@ namespace Student_Management.DAL
         {
             cnn.Open();
 
+            OleDbCommand check = new OleDbCommand();
+            check.Connection = cnn;
+            check.CommandText = $"SELECT Count(MSSV) FROM Student WHERE MSSV = ?";
+            check.Parameters.AddWithValue("@MSSV", mssv);
+            if ((int)check.ExecuteScalar() == 0)
+            {
+                cnn.Close();
+                return;
+            }
+
             OleDbCommand deleteCmd = new OleDbCommand();
             deleteCmd.Connection = cnn;
             deleteCmd.CommandText = $"DELETE FROM StudentOfCourse WHERE MALOP = ? AND MAMON = ? AND (IDSIGN = ? OR IDDELETE = ?)";
@@ -684,6 +698,50 @@ namespace Student_Management.DAL
                 cmd.Parameters.AddWithValue("@MALOP", nClass);
                 cmd.Parameters.AddWithValue("@MAMON", nCourses);
                 cmd.Parameters.AddWithValue("@IDDELETE", mssv);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+            cnn.Close();
+        }
+
+        public void signCourses(string mssv, string nClass, string nCourses)
+        {
+            cnn.Open();
+
+            OleDbCommand check = new OleDbCommand();
+            check.Connection = cnn;
+            check.CommandText = $"SELECT Count(MSSV) FROM Student WHERE MSSV = ?";
+            check.Parameters.AddWithValue("@MSSV", mssv);
+            if ((int)check.ExecuteScalar() == 0)
+            {
+                cnn.Close();
+                return;
+            }       
+
+            OleDbCommand deleteCmd = new OleDbCommand();
+            deleteCmd.Connection = cnn;
+            deleteCmd.CommandText = $"DELETE FROM StudentOfCourse WHERE MALOP = ? AND MAMON = ? AND (IDSIGN = ? OR IDDELETE = ?)";
+            deleteCmd.Parameters.AddWithValue("@MALOP", nClass);
+            deleteCmd.Parameters.AddWithValue("@MAMON", nCourses);
+            deleteCmd.Parameters.AddWithValue("@IDSIGN", mssv);
+            deleteCmd.Parameters.AddWithValue("@IDDELETE", mssv);
+            deleteCmd.ExecuteNonQuery();
+
+
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+
+            cmd.CommandText = $"INSERT INTO StudentOfCourse(MALOP, MAMON, IDSIGN) VALUES(?, ?, ?)";
+
+            try
+            {
+                cmd.Parameters.AddWithValue("@MALOP", nClass);
+                cmd.Parameters.AddWithValue("@MAMON", nCourses);
+                cmd.Parameters.AddWithValue("@IDSIGN", mssv);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception) { }

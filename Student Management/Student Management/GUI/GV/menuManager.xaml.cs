@@ -200,7 +200,7 @@ namespace Student_Management
         {
             Components _components = DataContext as Components;
             _components.NewClass = handle.viewClassOfCourses(viewClassCB.SelectedItem.ToString(), viewScheduleCB.SelectedItem.ToString());
-            managerFrame2.Navigate(new viewScoreboard(DataContext as Components, null));
+            managerFrame2.Navigate(new viewClass(DataContext as Components));
         }
     }
 }
