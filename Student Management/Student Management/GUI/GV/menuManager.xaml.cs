@@ -57,6 +57,7 @@ namespace Student_Management
 
         private void addStudent_Click(object sender, RoutedEventArgs e)
         {
+            managerFrame2.Navigate(new addStudent());
         }
 
         private void addSchedule_Click(object sender, RoutedEventArgs e)

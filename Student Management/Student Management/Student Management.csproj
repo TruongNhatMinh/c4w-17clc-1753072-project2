@@ -59,6 +59,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\GV\addStudent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\GV\menuManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +101,9 @@
     <Compile Include="DAL\DataAccess.cs" />
     <Compile Include="GUI\changePassword.xaml.cs">
       <DependentUpon>changePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GV\addStudent.xaml.cs">
+      <DependentUpon>addStudent.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\GV\viewClass.xaml.cs">
       <DependentUpon>viewClass.xaml</DependentUpon>

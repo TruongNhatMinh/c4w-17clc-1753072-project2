@@ -71,6 +71,11 @@ namespace Student_Management.BUS
             return _getClass;
         }
 
+        internal void addStudent(List<string> information)
+        {
+            handle.addStudent(information);
+        }
+
         internal ObservableCollection<Schedule> addSchedule(string filePath)
         {
             return returnSchedule(handle.addSchedule(filePath));

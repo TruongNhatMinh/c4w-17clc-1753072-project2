@@ -338,6 +338,81 @@ namespace Student_Management.DAL
             return saveClass;
         }
 
+        public void addStudent(List<string> information)
+        {
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            OleDbCommand cmd2 = new OleDbCommand();
+            cmd2.Connection = cnn;
+            cmd.CommandText = $"Select MAX(STT) From Student Where MALOP = ?";
+            cmd.Parameters.AddWithValue("@MALOP", information[6]);
+            int stt = (int)cmd.ExecuteScalar();
+            stt++;
+            cmd.Parameters.Clear();
+
+            cmd.CommandText = $"INSERT INTO Student(STT, MSSV, HOTEN, GIOITINH, CMND, NGAYSINH, DIACHI, MALOP) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            cmd2.CommandText = $"INSERT INTO Account VALUES(?, ?, ?)";
+
+
+
+            try
+            {
+                OleDbCommand deleteCmd = new OleDbCommand();
+                deleteCmd.Connection = cnn;
+                deleteCmd.CommandText = "DELETE FROM ACCOUNT WHERE USERNAME = ?";
+                deleteCmd.Parameters.AddWithValue("@USERNAME", information[0]);
+
+                deleteCmd.ExecuteNonQuery();
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                cmd2.Parameters.AddWithValue("@Username", information[0].Replace(" ", ""));
+                cmd2.Parameters.AddWithValue("@Password", information[4].Replace("/", ""));
+                cmd2.Parameters.AddWithValue("@Type", "sv");
+                cmd2.ExecuteNonQuery();
+                cmd2.Parameters.Clear();
+            }
+
+            try
+            {
+                cmd.Parameters.AddWithValue("@STT", stt);
+                cmd.Parameters.AddWithValue("@MSSV", information[0]);
+                cmd.Parameters.AddWithValue("@HOTEN", information[1]);
+                cmd.Parameters.AddWithValue("@GIOITINH", information[2]);
+                cmd.Parameters.AddWithValue("@CMND", information[3]);
+                cmd.Parameters.AddWithValue("@NGAYSINH", information[4]);
+                cmd.Parameters.AddWithValue("@DIACHI", information[5]);
+                cmd.Parameters.AddWithValue("@MALOP", information[6]);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+
+            cmd.CommandText = $"UPDATE Class set SISO = ? Where MALOP = ?";
+            try
+            {
+                cmd.Parameters.AddWithValue("@SISO", stt);
+                cmd.Parameters.AddWithValue("@MALOP", information[6]);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception) { }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
+
+            cnn.Close();
+        }
+
         public List<string> nameCourses(string nClass)
         {
             cnn.Open();
